@@ -9,7 +9,8 @@
 /* product thumbnails */
 .thumb{width:100%;height:180px;object-fit:cover;display:block;border-bottom:1px solid #d9cfbd}
 :root{--bg:#fafaf7;--ink:#14120f;--muted:#6b6b6b;--brand:#176b2b;--brand-ink:#0b4d1d;--border:#d9cfbd}
-*{box-sizing:border-box} html,body{margin:0;padding:0;font-family:system-ui,Segoe UI,Roboto,Inter,Arial,sans-serif;color:var(--ink);background:linear-gradient(to bottom,var(--bg),transparent 200px)}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;font-family:system-ui,Segoe UI,Roboto,Inter,Arial,sans-serif;color:var(--ink);background:linear-gradient(to bottom,var(--bg),transparent 200px)}
 a{color:inherit;text-decoration:none}
 .container{max-width:1120px;margin:0 auto;padding:0 16px}
 .nav{position:sticky;top:0;background:#ffffffee;backdrop-filter:blur(8px);border-bottom:1px solid var(--border);z-index:20}
@@ -26,7 +27,8 @@ a{color:inherit;text-decoration:none}
 .btn:hover{background:var(--brand-ink)}
 .btn-outline{background:#fff;color:var(--brand);border:1px solid var(--border)}
 .badge{display:inline-flex;align-items:center;background:#e8f5ea;color:var(--brand-ink);border-radius:999px;padding:.25rem .5rem;font-size:.8rem;border:1px solid #d6ebdb}
-.row{display:grid;gap:24px} @media(min-width:900px){.row-2{grid-template-columns:1fr 1fr}.row-3{grid-template-columns:repeat(3,1fr)}}
+.row{display:grid;gap:24px}
+@media(min-width:900px){.row-2{grid-template-columns:1fr 1fr}.row-3{grid-template-columns:repeat(3,1fr)}}
 .card{background:#fff;border:1px solid var(--border);border-radius:18px;overflow:hidden}
 .card .pad{padding:16px}
 img.round{border-radius:22px;border:1px solid var(--border);width:100%;height:auto}
@@ -37,125 +39,7 @@ img.round{border-radius:22px;border:1px solid var(--border);width:100%;height:au
 hr.rule{border:none;border-top:1px solid var(--border);margin:20px 0}
 </style>
 </head>
-<script>
-// ---------- product data with images ----------
-const PRODUCTS = [
-  // Farm Produce
-  {cat:"Farm Produce", item:"Whole Moong", qty:"1 Kg", price:260,
-   img:"https://images.unsplash.com/photo-1526318472351-c75fcf070305?q=80&w=1200&auto=format&fit=crop"},
-  {cat:"Farm Produce", item:"Toor Split", qty:"1 Kg", price:280,
-   img:"https://source.unsplash.com/600x400/?pulses,dal"},
-  {cat:"Farm Produce", item:"Indrayani Rice (Unpolished)", qty:"1 Kg", price:120,
-   img:"https://source.unsplash.com/600x400/?brown%20rice,grains"},
-  {cat:"Farm Produce", item:"Groundnut Oil", qty:"1 Lt", price:420,
-   img:"https://source.unsplash.com/600x400/?groundnut%20oil,peanut%20oil"},
-  {cat:"Farm Produce", item:"A2 Organic Ghee", qty:"500 g", price:1100,
-   img:"https://source.unsplash.com/600x400/?ghee,clarified%20butter"},
-  {cat:"Farm Produce", item:"A2 Organic Paneer", qty:"500 g", price:420,
-   img:"https://source.unsplash.com/600x400/?paneer,indian%20cheese"},
-
-  // TGF Community Produce
-  {cat:"TGF Community Produce", item:"Mango Pickle", qty:"100 g", price:190,
-   img:"https://source.unsplash.com/600x400/?mango%20pickle,achar"},
-  {cat:"TGF Community Produce", item:"Mango Pickle", qty:"400 g", price:690,
-   img:"https://source.unsplash.com/600x400/?mango%20pickle,jar"},
-  {cat:"TGF Community Produce", item:"Red Chilli Pickle", qty:"100 g", price:190,
-   img:"https://source.unsplash.com/600x400/?red%20chili%20pickle"},
-  {cat:"TGF Community Produce", item:"Red Chilli Pickle", qty:"400 g", price:690,
-   img:"https://source.unsplash.com/600x400/?red%20chilli,achar"},
-  {cat:"TGF Community Produce", item:"Malgapodi", qty:"50 g", price:120,
-   img:"https://source.unsplash.com/600x400/?spice%20powder,idli%20podi"},
-  {cat:"TGF Community Produce", item:"Malgapodi", qty:"100 g", price:220,
-   img:"https://source.unsplash.com/600x400/?gunpowder%20masala"},
-  {cat:"TGF Community Produce", item:"Honey", qty:"250 g", price:285,
-   img:"https://images.unsplash.com/photo-1517260739337-6799d021c8f5?q=80&w=1200&auto=format&fit=crop"},
-
-  // Garden
-  {cat:"Garden", item:"Jeevamrit", qty:"5 Lt", price:600,
-   img:"https://source.unsplash.com/600x400/?organic%20fertilizer,compost%20tea"},
-  {cat:"Garden", item:"Vermicompost", qty:"1 Kg", price:120,
-   img:"https://source.unsplash.com/600x400/?vermicompost,compost"}
-];
-
-// ---------- card template with image ----------
-function cardHTML(p, i){
-  const INR = n => `₹ ${n}`;
-  return `
-    <div class="card" data-cat="${p.cat}">
-      <img class="thumb" src="${p.img}" alt="${p.item}">
-      <div class="pad">
-        <div class="small" style="opacity:.75">${p.cat}</div>
-        <div style="font-weight:600;margin-top:2px">${p.item}</div>
-        <div class="small">${p.qty}</div>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
-          <div style="font-weight:700">${INR(p.price)}</div>
-          <div style="display:flex;gap:6px;align-items:center">
-            <input aria-label="Quantity" type="number" min="1" value="1"
-                   style="width:64px;padding:.45rem .5rem;border:1px solid #d9cfbd;border-radius:10px">
-            <a class="btn" data-wa="${i}">Order on WhatsApp</a>
-          </div>
-        </div>
-      </div>
-    </div>`;
-}
-</script>
-/* ========= Render grid ========= */
-const INR = n => `₹ ${n}`;
-const WA_NUMBER = "916362486869"; // +91 63624 86869 (change country code if needed)
-
-const grid = document.getElementById("catalog-grid");
-function cardHTML(p, i){
-  const title = `${p.item} — ${p.qty}`;
-  return `
-    <div class="card" data-cat="${p.cat}">
-      <div class="pad">
-        <div class="small" style="opacity:.75">${p.cat}</div>
-        <div style="font-weight:600;margin-top:2px">${p.item}</div>
-        <div class="small">${p.qty}</div>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
-          <div style="font-weight:700">${INR(p.price)}</div>
-          <div style="display:flex;gap:6px;align-items:center">
-            <input aria-label="Quantity" type="number" min="1" value="1" style="width:64px;padding:.45rem .5rem;border:1px solid #d9cfbd;border-radius:10px">
-            <a class="btn" data-wa="${i}">Order on WhatsApp</a>
-          </div>
-        </div>
-      </div>
-    </div>`;
-}
-
-function render(filter="All"){
-  grid.innerHTML = PRODUCTS
-    .filter(p => filter==="All" || p.cat===filter)
-    .map((p,i)=>cardHTML(p,i))
-    .join("");
-}
-render();
-
-/* ========= Filtering ========= */
-document.querySelectorAll('[data-filter]').forEach(btn=>{
-  btn.addEventListener('click', () => render(btn.dataset.filter));
-});
-
-/* ========= WhatsApp ordering ========= */
-grid.addEventListener("click", (e)=>{
-  const btn = e.target.closest("[data-wa]");
-  if(!btn) return;
-  const idx = parseInt(btn.dataset.wa, 10);
-  const card = btn.closest(".card");
-  const qtyInput = card.querySelector('input[type="number"]');
-  const units = Math.max(1, parseInt(qtyInput.value || "1", 10));
-
-  const p = PRODUCTS[idx];
-  const line = `${p.item} (${p.qty}) x ${units}`;
-  const total = p.price * units;
-
-  const message = `Hello The Gypsy Farms,%0A%0AI would like to order:%0A• ${line}%0A%0ACategory: ${p.cat}%0ATotal (approx): ₹ ${total}%0A%0APlease confirm availability and payment options.%0AThank you!`;
-  const url = `https://wa.me/${WA_NUMBER}?text=${message}`;
-  window.open(url, "_blank");
-});
-</script>
-
-  <body>
+<body>
 
 <!-- NAV -->
 <div class="nav">
@@ -220,9 +104,9 @@ grid.addEventListener("click", (e)=>{
     <h2 class="h2">Stay on the farm</h2>
     <p class="p">Slow mornings, soil on your hands, and skies full of stars. Choose a cottage or glamping under the tamarinds.</p>
     <div class="row row-3" style="margin-top:16px">
-      <div class="card"><img src="https://images.unsplash.com/photo-1466220666686-90aa4e70f78e?q=80&w=1600&auto=format&fit=crop" alt="Mango Grove Cottage"><div class="pad"><strong>Exotic Farm Stay — Mango Grove Cottage</strong><ul class="small" style="padding-left:18px;line-height:1.6"><li>Breakfast from the farm</li><li>Sunset tractor trail</li><li>Star-gazing firepit</li></ul><div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px"><div style="font-weight:600">₹ 6999 <span class="small">per night (double)</span></div><a class="btn btn-outline" href="#contact">Enquire</a></div></div></div>
-      <div class="card"><img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1600&auto=format&fit=crop" alt="Bamboo Haven"><div class="pad"><strong>Sustainability Retreat — Bamboo Haven</strong><ul class="small" style="padding-left:18px;line-height:1.6"><li>Permaculture workshop</li><li>Mindful harvesting</li><li>Zero-waste cooking</li></ul><div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px"><div style="font-weight:600">₹ 15999 <span class="small">2-day weekend, per person</span></div><a class="btn btn-outline" href="#contact">Reserve</a></div></div></div>
-      <div class="card"><img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1600&auto=format&fit=crop" alt="Starlight Camp"><div class="pad"><strong>Starlight Farm Camp</strong><ul class="small" style="padding-left:18px;line-height:1.6"><li>Bonfire dinner</li><li>Guided birding</li><li>Sunrise yoga</li></ul><div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px"><div style="font-weight:600">₹ 5999 <span class="small">per night (glamping)</span></div><a class="btn btn-outline" href="#contact">Enquire</a></div></div></div>
+      <div class="card"><img class="thumb" src="https://images.unsplash.com/photo-1466220666686-90aa4e70f78e?q=80&w=1600&auto=format&fit=crop" alt="Mango Grove Cottage"><div class="pad"><strong>Exotic Farm Stay — Mango Grove Cottage</strong><ul class="small" style="padding-left:18px;line-height:1.6"><li>Breakfast from the farm</li><li>Sunset tractor trail</li><li>Star-gazing firepit</li></ul><div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px"><div style="font-weight:600">₹ 6999 <span class="small">per night (double)</span></div><a class="btn btn-outline" href="#contact">Enquire</a></div></div></div>
+      <div class="card"><img class="thumb" src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1600&auto=format&fit=crop" alt="Bamboo Haven"><div class="pad"><strong>Sustainability Retreat — Bamboo Haven</strong><ul class="small" style="padding-left:18px;line-height:1.6"><li>Permaculture workshop</li><li>Mindful harvesting</li><li>Zero-waste cooking</li></ul><div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px"><div style="font-weight:600">₹ 15999 <span class="small">2-day weekend, per person</span></div><a class="btn btn-outline" href="#contact">Reserve</a></div></div></div>
+      <div class="card"><img class="thumb" src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1600&auto=format&fit=crop" alt="Starlight Camp"><div class="pad"><strong>Starlight Farm Camp</strong><ul class="small" style="padding-left:18px;line-height:1.6"><li>Bonfire dinner</li><li>Guided birding</li><li>Sunrise yoga</li></ul><div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px"><div style="font-weight:600">₹ 5999 <span class="small">per night (glamping)</span></div><a class="btn btn-outline" href="#contact">Enquire</a></div></div></div>
     </div>
   </div>
 </section>
@@ -254,7 +138,7 @@ grid.addEventListener("click", (e)=>{
       <button class="btn btn-outline" data-filter="Garden">Garden</button>
     </div>
 
-    <!-- Grid gets filled by JS -->
+    <!-- Grid filled by JS -->
     <div id="catalog-grid" class="row row-3" style="margin-top:16px"></div>
   </div>
 </section>
@@ -265,4 +149,149 @@ grid.addEventListener("click", (e)=>{
     <h2 class="h2">Our soil-first promise</h2>
     <p class="p">We grow with restraint. Sun-dry where we can, stone-grind when it’s better, and never push the land beyond its season.</p>
     <div class="row row-3" style="margin-top:16px">
-      <div class="card"><div class="pad"><strong>Chemical-free farming</strong><p class="small">Native seeds, bio-inputs, inter
+      <div class="card"><div class="pad"><strong>Chemical-free farming</strong><p class="small">Native seeds, bio-inputs, intercropping, and mulching to keep soil life thriving.</p></div></div>
+      <div class="card"><div class="pad"><strong>Water & tree cover</strong><p class="small">Rainwater harvesting, contour bunds, and canopy planning for shade and moisture.</p></div></div>
+      <div class="card"><div class="pad"><strong>Low-energy processing</strong><p class="small">Sun-drying and hand-processing wherever feasible to minimize energy footprint.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section">
+  <div class="container row row-2">
+    <form class="card pad form" onsubmit="event.preventDefault(); alert('Thanks! We will get back to you within 24 hours.'); this.reset();">
+      <h2 class="h2">Reach us</h2>
+      <p class="p">Questions, bookings, or bulk orders? Drop a note and we’ll get back within one business day.</p>
+      <div class="row" style="grid-template-columns:1fr 1fr">
+        <div><label>Name</label><input required placeholder="Your name"></div>
+        <div><label>Email</label><input type="email" required placeholder="you@example.com"></div>
+      </div>
+      <div style="margin-top:10px"><label>Message</label><textarea rows="5" required placeholder="Tell us what you’re looking for—stay, retreat, or produce order."></textarea></div>
+      <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:center">
+        <div class="small">We reply within 24 hours.</div>
+        <button class="btn" type="submit">Send</button>
+      </div>
+    </form>
+    <div class="card pad" style="background:#f3f7f4">
+      <div class="small"><strong>Locations:</strong> South India (farm) • Mumbai (ops)</div>
+      <div class="small"><strong>Phone:</strong> 63624 86869</div>
+      <div class="small"><strong>Email:</strong> hello@thegypsyfarms.com</div>
+      <div class="small"><strong>Instagram:</strong> <a href="https://instagram.com/the_gypsy_farms" target="_blank">@the_gypsy_farms</a></div>
+      <hr class="rule">
+      <div class="small">Business hours: Mon–Sat, 9:30–18:00 IST</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+    <a class="brand" href="#home"><span class="logo"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11L12 3l9 8v8a2 2 0 0 1-2 2h-4v-6H9v6H5a2 2 0 0 1-2-2v-8Z" fill="#E11D48"/></svg></span><span><div style="font-weight:700">The Gypsy Farms</div></span></a>
+    <div class="small">© <span id="year"></span> The Gypsy Farms • thegypsyfarms.com • All rights reserved.</div>
+  </div>
+</footer>
+
+<!-- SCRIPTS (placed at end; no duplicates) -->
+<script>
+/* ========= Catalog data with images ========= */
+const PRODUCTS = [
+  // Farm Produce
+  {cat:"Farm Produce", item:"Whole Moong", qty:"1 Kg", price:260,
+   img:"https://images.unsplash.com/photo-1526318472351-c75fcf070305?q=80&w=1200&auto=format&fit=crop"},
+  {cat:"Farm Produce", item:"Toor Split", qty:"1 Kg", price:280,
+   img:"https://source.unsplash.com/600x400/?pulses,dal"},
+  {cat:"Farm Produce", item:"Indrayani Rice (Unpolished)", qty:"1 Kg", price:120,
+   img:"https://source.unsplash.com/600x400/?brown%20rice,grains"},
+  {cat:"Farm Produce", item:"Groundnut Oil", qty:"1 Lt", price:420,
+   img:"https://source.unsplash.com/600x400/?groundnut%20oil,peanut%20oil"},
+  {cat:"Farm Produce", item:"A2 Organic Ghee", qty:"500 g", price:1100,
+   img:"https://source.unsplash.com/600x400/?ghee,clarified%20butter"},
+  {cat:"Farm Produce", item:"A2 Organic Paneer", qty:"500 g", price:420,
+   img:"https://source.unsplash.com/600x400/?paneer,indian%20cheese"},
+
+  // TGF Community Produce
+  {cat:"TGF Community Produce", item:"Mango Pickle", qty:"100 g", price:190,
+   img:"https://source.unsplash.com/600x400/?mango%20pickle,achar"},
+  {cat:"TGF Community Produce", item:"Mango Pickle", qty:"400 g", price:690,
+   img:"https://source.unsplash.com/600x400/?mango%20pickle,jar"},
+  {cat:"TGF Community Produce", item:"Red Chilli Pickle", qty:"100 g", price:190,
+   img:"https://source.unsplash.com/600x400/?red%20chili%20pickle"},
+  {cat:"TGF Community Produce", item:"Red Chilli Pickle", qty:"400 g", price:690,
+   img:"https://source.unsplash.com/600x400/?red%20chilli,achar"},
+  {cat:"TGF Community Produce", item:"Malgapodi", qty:"50 g", price:120,
+   img:"https://source.unsplash.com/600x400/?spice%20powder,idli%20podi"},
+  {cat:"TGF Community Produce", item:"Malgapodi", qty:"100 g", price:220,
+   img:"https://source.unsplash.com/600x400/?gunpowder%20masala"},
+  {cat:"TGF Community Produce", item:"Honey", qty:"250 g", price:285,
+   img:"https://images.unsplash.com/photo-1517260739337-6799d021c8f5?q=80&w=1200&auto=format&fit=crop"},
+
+  // Garden
+  {cat:"Garden", item:"Jeevamrit", qty:"5 Lt", price:600,
+   img:"https://source.unsplash.com/600x400/?organic%20fertilizer,compost%20tea"},
+  {cat:"Garden", item:"Vermicompost", qty:"1 Kg", price:120,
+   img:"https://source.unsplash.com/600x400/?vermicompost,compost"}
+];
+
+const WA_NUMBER = "916362486869"; // +91 63624 86869
+const grid = document.getElementById("catalog-grid");
+
+function INR(n){ return `₹ ${n}`; }
+
+function cardHTML(p, i){
+  return `
+    <div class="card" data-cat="${p.cat}">
+      <img class="thumb" src="${p.img}" alt="${p.item}">
+      <div class="pad">
+        <div class="small" style="opacity:.75">${p.cat}</div>
+        <div style="font-weight:600;margin-top:2px">${p.item}</div>
+        <div class="small">${p.qty}</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+          <div style="font-weight:700">${INR(p.price)}</div>
+          <div style="display:flex;gap:6px;align-items:center">
+            <input aria-label="Quantity" type="number" min="1" value="1"
+              style="width:64px;padding:.45rem .5rem;border:1px solid #d9cfbd;border-radius:10px">
+            <a class="btn" data-wa="${i}">Order on WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function render(filter="All"){
+  grid.innerHTML = PRODUCTS
+    .filter(p => filter==="All" || p.cat===filter)
+    .map((p,i)=>cardHTML(p,i)).join("");
+}
+render();
+
+/* Filtering */
+document.querySelectorAll('[data-filter]').forEach(btn=>{
+  btn.addEventListener('click', () => render(btn.dataset.filter));
+});
+
+/* WhatsApp ordering */
+grid.addEventListener("click", (e)=>{
+  const btn = e.target.closest("[data-wa]");
+  if(!btn) return;
+  const idx = parseInt(btn.dataset.wa, 10);
+  const card = btn.closest(".card");
+  const qtyInput = card.querySelector('input[type="number"]');
+  const units = Math.max(1, parseInt(qtyInput.value || "1", 10));
+
+  const p = PRODUCTS[idx];
+  const line = `${p.item} (${p.qty}) x ${units}`;
+  const total = p.price * units;
+
+  const message =
+    `Hello The Gypsy Farms,%0A%0AI would like to order:%0A• ${line}` +
+    `%0A%0ACategory: ${p.cat}%0ATotal (approx): ₹ ${total}` +
+    `%0A%0APlease confirm availability and payment options.%0AThank you!`;
+  const url = `https://wa.me/${WA_NUMBER}?text=${message}`;
+  window.open(url, "_blank");
+});
+
+/* Footer year */
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
